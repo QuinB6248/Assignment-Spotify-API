@@ -7,17 +7,18 @@ router.get('/playlists', (req, res, next) => {
     .findAll()
     .then(playlist => res.send(playlist))
     .catch(error => next(error))
- })
+})
 
-//  router.post('/team', (req, res, next) => {
-//    console.log('req.body test:', req.body)
-//    Team.create(req.body)
-//     .then(team => {
-//       console.log('team test:', team)
-//       return res.send(team)
-//     })
-//     .catch(err => next(err))
-//  })
+router.post('/playlists', (req, res, next) => {
+  console.log('req.body test:', req.body)
+  Playlist
+    .create(req.body)
+    .then(playlist => {
+       console.log('playlist test:', playlist)
+       return res.send(playlist)
+     })
+    .catch(error => next(error))
+})
 
 //  router.get('/team/:id', (req, res, next) => {
 //   const id = req.params.id

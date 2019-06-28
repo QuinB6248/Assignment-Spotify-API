@@ -1,12 +1,15 @@
 const express = require('express')
 const app = express() 
 const db = require('./db')
+const bodyParser = require('body-parser')
+const jsonParser = bodyParser.json()
+
 
 const Playlist = require('./playlist/model')
 
 const playlistRouter = require('./playlist/router')
 
-
+app.use(jsonParser)
 app.use(playlistRouter)
 
 
