@@ -10,35 +10,50 @@ router.get('/playlists', (req, res, next) => {
 })
 
 router.post('/playlists', (req, res, next) => {
-  console.log('req.body test:', req.body)
   Playlist
     .create(req.body)
     .then(playlist => {
-       console.log('playlist test:', playlist)
        return res.send(playlist)
      })
     .catch(error => next(error))
 })
 
-//  router.get('/team/:id', (req, res, next) => {
-//   const id = req.params.id
-//   Team.findByPk(id)
-//   .then(team => res.send(team))
-//   .catch(err => next(err))
-//  })
+router.get('/playlists/:id', (req, res, next) => {
+  Playlist
+    .findByPk(req.params.id)
+    .then(playlist => res.send(playlist))
+    .catch(err => next(err))
+})
 
-//  router.put('/team/:id', (req, res, next) => {
-//   const id = req.params.id
-//   Team.findByPk(id)
-//     .then(team => {
-//       if(team){
-//         team.update(req.body)
-//           .then(team => res.send(team))
-//           .catch(err => next(err))
-//       } else {
-//         res.status(404).send({message: 'team is not in database'})
-//       }
+router.put('/playlists/:id', (req, res, next) => {
+  Playlist
+    .findByPk(req.params.id)
+    .then(playlist => {
+      if(playlist){
+        playlist
+          .update(req.body)
+          .then(playlist => res.send(playlist))
+          .catch(err => next(err))
+      } else {
+        res.status(404).send({message: 'playlist is not in database'})
+       }
+    })
+})
 
-//     })
-//  })
- module.exports = router
+router.delete('/playlists/:id', (req, res, next) => {
+  Playlist
+    .findByPk(req.params.id)
+    .then(playlist => {
+      if (!playlist) {
+        return res.status(404).send({message: `Customer does not exist`})
+      }
+      return playlist
+        .destroy()
+        .then(() => res.send({message: 'Playlist is deleted!'}))
+    })
+    .catch(error => next(error))
+})
+
+
+
+module.exports = router
