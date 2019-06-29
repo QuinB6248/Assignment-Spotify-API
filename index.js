@@ -5,11 +5,11 @@ const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
 const Song = require('./Song/model')
-const Playlist = require('./Playlist/model')
+const Playlist = require('./playlist/model')
 const User = require('./User/model')
 
 
-const playlistRouter = require('./Playlist/router')
+const playlistRouter = require('./playlist/router')
 //const songRouter = require('./Song/router')
 const authRouter = require('./auth/router')
 const userRouter = require('./User/router')
