@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 const { toJWT } = require('./jwt')
 const auth = require('./middleware')
 const User = require('../User/model')
@@ -18,11 +18,12 @@ router.post('/tokens', (req, res, next)=> {
         if(!entity) {
           res.status(400).send({message: 'user or password is incorrect'})
         }
-        if (bcrypt.compareSync(req.body.password, entity.password)) {
-          res.send({jwt: toJWT({ userId: entity.id }) })
-        }else {
-          res.status(400).send({message: 'Password was incorrect'})
-        }
+        res.send({jwt: toJWT({ userId: entity.id }) })
+        // if (bcrypt.compareSync(req.body.password, entity.password)) {
+        //   res.send({jwt: toJWT({ userId: entity.id }) })
+        // }else {
+        //   res.status(400).send({message: 'Password was incorrect'})
+        // }
       })
       .catch(error => next(error))
   }else {

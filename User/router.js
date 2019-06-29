@@ -1,12 +1,12 @@
 const { Router } = require('express')
- const User = require('./model')
- const router = new Router()
- const bcrypt = require('bcrypt');
+const User = require('./model')
+const router = new Router()
+ //const bcrypt = require('bcrypt');
  
  router.post('/users', (req, res, next) => {
   const user = {
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 10)
+    password: req.body.password//bcrypt.hashSync(req.body.password, 10)
   }
   if(req.body.password_confirmation === req.body.password) {
     User.create(user)
