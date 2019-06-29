@@ -2,10 +2,13 @@ const { Router } = require('express')
 const Playlist = require('./model')
 const router = new Router()
 const Song = require('../Song/model')
+const auth = require('../auth/middleware')
 
-router.get('/playlists', (req, res, next) => {
+router.get('/playlists', auth, (req, res, next) => {
   Playlist
-    .findAll()
+    .findAll({
+      where: {userId: req.user.id}
+    })
     .then(playlist => {
       if(playlist.length > 0){
         res.status(200).json(playlist)
@@ -16,9 +19,12 @@ router.get('/playlists', (req, res, next) => {
     .catch(error => next(error))
 })
 
-router.post('/playlists', (req, res, next) => {
+router.post('/playlists', auth, (req, res, next) => {
   Playlist
-    .create(req.body)
+    .create({
+      ...req.body,
+      userId: req.user.id
+    })
     .then(playlist => {
       if(playlist.name.length > 0 || playlist.name.length < 20) {
         res.status(200).json(playlist)
