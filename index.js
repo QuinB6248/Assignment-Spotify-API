@@ -6,11 +6,16 @@ const jsonParser = bodyParser.json()
 
 
 const Playlist = require('./playlist/model')
+const User = require('./User/model')
 
 const playlistRouter = require('./playlist/router')
+const authRouter = require('./auth/router')
+const userRouter = require('./User/router')
 
 app.use(jsonParser)
 app.use(playlistRouter)
+app.use(authRouter)
+app.use(userRouter)
 
 
 

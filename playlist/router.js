@@ -40,7 +40,7 @@ router.get('/playlists/:id', (req, res, next) => {
         res.status(404).json({message: 'playlist is not found'}).end()
       }
     })
-    .catch(err => next(err))
+    .catch(error => next(error))
 })
 
 router.put('/playlists/:id', (req, res, next) => {
@@ -51,7 +51,7 @@ router.put('/playlists/:id', (req, res, next) => {
         playlist
           .update(req.body)
           .then(playlist => res.json(playlist))
-          .catch(err => next(err))
+          .catch(error => next(error))
       }else {
         res.status(404).json({message: 'playlist is not found'}).end()
       }
