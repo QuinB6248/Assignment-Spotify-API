@@ -10,13 +10,13 @@ const User = require('./User/model')
 
 
 const playlistRouter = require('./playlist/router')
-//const songRouter = require('./Song/router')
+const songRouter = require('./Song/router')
 const authRouter = require('./auth/router')
 const userRouter = require('./User/router')
 
 app.use(jsonParser)
 app.use(playlistRouter)
-//app.use(songRouter)
+app.use(songRouter)
 app.use(authRouter)
 app.use(userRouter)
 
