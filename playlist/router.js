@@ -37,44 +37,45 @@ router.post('/playlists', auth, (req, res, next) => {
 
 
 
-router.get('/playlists/:id', (req, res, next) => {
+router.get('/playlists/:id', auth, (req, res, next) => {
   const id = parseInt(req.params.id)
   Playlist
     .findByPk(id)
     .then(playlist => {
-      if(playlist) {
+      if(playlist && playlist.userId === req.user.id) {
          Song
            .findAll({where: {playlistId: id}})
            .then(songs => res.json({playlist : playlist, songs: songs}))
            .catch(error=> next(error))
       }else {
-        res.status(404).json({message: 'playlist is not found'}).end()
+        res.status(404).json({message: `playlist does not exist, or does not belong to authenticated user`}).end()
       }
     })
     .catch(error => next(error))
 })
 
-router.put('/playlists/:id', (req, res, next) => {
+router.put('/playlists/:id', auth, (req, res, next) => {
+  const id = parseInt(req.params.id)
   Playlist
-    .findByPk(req.params.id)
+    .findByPk(id)
     .then(playlist => {
-      if(playlist){
+      if(playlist && playlist.userId === req.user.id){
         playlist
           .update(req.body)
           .then(playlist => res.json(playlist))
           .catch(error => next(error))
       }else {
-        res.status(404).json({message: 'playlist is not found'}).end()
+        res.status(404).json({message: `playlist does not exist, or does not belong to authenticated user`}).end()
       }
     })
 })
 
-router.delete('/playlists/:id', (req, res, next) => {
+router.delete('/playlists/:id', auth, (req, res, next) => {
   const id = parseInt(req.params.id)
   Playlist
     .findByPk(req.params.id)
     .then(playlist => {
-      if (playlist) {
+      if (playlist && playlist.userId === req.user.id) {
         playlist
           .destroy()
           .then(() => {
@@ -85,7 +86,7 @@ router.delete('/playlists/:id', (req, res, next) => {
           })
           .then(() => res.send({message: 'Playlist is deleted!'}))
       }else {
-        res.status(404).send({message: `Playlist is not found`}).end()
+        res.status(404).json({message: `playlist does not exist, or does not belong to authenticated user`}).end()
       }
     })
     .catch(error => next(error))
