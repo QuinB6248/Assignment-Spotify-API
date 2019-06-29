@@ -6,6 +6,7 @@ const User = require('../User/model')
 
 const router = new Router()
 
+//A user is able to sign in by posting to `/tokens` and get a response `{ token: "<JWT>" }`
 
 router.post('/tokens', (req, res, next)=> {
   const { email, password, password_confirmation } = req.body
@@ -31,9 +32,10 @@ router.post('/tokens', (req, res, next)=> {
   }
 })
 
+//test
 router.get('/secret-endpoint', auth, (req, res) => {
   res.send({
-    message: `Thanks for visiting the secret endpoint ${req.user.email}.`,
+    message: `You are visiting the secret endpoint ${req.user.email}.`,
   })
 })
 

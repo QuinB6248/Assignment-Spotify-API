@@ -3,6 +3,8 @@ const User = require('./model')
 const router = new Router()
  //const bcrypt = require('bcrypt');
  
+ //A user is able to sign up by posting `email`, `password`, and `password_confirmation` to `/users`
+ 
  router.post('/users', (req, res, next) => {
   const user = {
     email: req.body.email,

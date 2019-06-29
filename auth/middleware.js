@@ -1,6 +1,7 @@
 const User = require('../User/model')
 const {toData} = require('./jwt')
 
+// A user is able to authenticate using an `Authorization` header with a `Bearer <JWT>`
 function auth(req, res, next) {
   const auth = req.headers.authorization && req.headers.authorization.split(' ')
   if (auth && auth[0] === 'Bearer' && auth[1]) {

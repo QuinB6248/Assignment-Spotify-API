@@ -4,6 +4,7 @@ const router = new Router()
 const Song = require('../Song/model')
 const auth = require('../auth/middleware')
 
+//GET /playlists A user is able to retrieve all their playlists
 router.get('/playlists', auth, (req, res, next) => {
   Playlist
     .findAll({
@@ -19,6 +20,7 @@ router.get('/playlists', auth, (req, res, next) => {
     .catch(error => next(error))
 })
 
+//POST /playlists user is able to create a playlist (with just a name)
 router.post('/playlists', auth, (req, res, next) => {
   Playlist
     .create({
@@ -35,8 +37,7 @@ router.post('/playlists', auth, (req, res, next) => {
     .catch(error => next(error))
 })
 
-
-
+//GET /playlists/:id A user is able to get a single one of their playlists, with all the songs on it (but no others)
 router.get('/playlists/:id', auth, (req, res, next) => {
   const id = parseInt(req.params.id)
   Playlist
@@ -54,6 +55,7 @@ router.get('/playlists/:id', auth, (req, res, next) => {
     .catch(error => next(error))
 })
 
+//PUT /playlist/:id A user may edit their playlist
 router.put('/playlists/:id', auth, (req, res, next) => {
   const id = parseInt(req.params.id)
   Playlist
@@ -70,6 +72,7 @@ router.put('/playlists/:id', auth, (req, res, next) => {
     })
 })
 
+//DELETE /playlists/:id`: A user may delete their playlists, and all songs on it
 router.delete('/playlists/:id', auth, (req, res, next) => {
   const id = parseInt(req.params.id)
   Playlist
