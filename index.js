@@ -4,16 +4,19 @@ const db = require('./db')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
-
-const Playlist = require('./playlist/model')
+const Song = require('./Song/model')
+const Playlist = require('./Playlist/model')
 const User = require('./User/model')
 
-const playlistRouter = require('./playlist/router')
+
+const playlistRouter = require('./Playlist/router')
+//const songRouter = require('./Song/router')
 const authRouter = require('./auth/router')
 const userRouter = require('./User/router')
 
 app.use(jsonParser)
 app.use(playlistRouter)
+//app.use(songRouter)
 app.use(authRouter)
 app.use(userRouter)
 
