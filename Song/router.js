@@ -1,10 +1,11 @@
 const { Router } = require('express')
 const Song = require('./model')
 const router = new Router()
+const Playlist = require('../playlist/model')
 
 router.get('/playlists/:id/songs', (req, res, next) => {
   Song
-    .findAll()
+    .findAll({ include: [Playlist] })
     .then(song => {
       if(song.length > 0){
         res.status(200).json(song)

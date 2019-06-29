@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const Playlist = require('./model')
 const router = new Router()
+const Song = require('../Song/model')
 
 router.get('/playlists', (req, res, next) => {
   Playlist
@@ -31,11 +32,15 @@ router.post('/playlists', (req, res, next) => {
 
 
 router.get('/playlists/:id', (req, res, next) => {
+  const id = parseInt(req.params.id)
   Playlist
-    .findByPk(req.params.id)
+    .findByPk(id)
     .then(playlist => {
       if(playlist) {
-        res.status(200).json(playlist)
+         Song
+           .findAll({where: {playlistId: id}})
+           .then(songs => res.json({playlist : playlist, songs: songs}))
+           .catch(error=> next(error))
       }else {
         res.status(404).json({message: 'playlist is not found'}).end()
       }
@@ -59,12 +64,19 @@ router.put('/playlists/:id', (req, res, next) => {
 })
 
 router.delete('/playlists/:id', (req, res, next) => {
+  const id = parseInt(req.params.id)
   Playlist
     .findByPk(req.params.id)
     .then(playlist => {
       if (playlist) {
         playlist
           .destroy()
+          .then(() => {
+            Song
+              .findAll({where: {playlistId: id}})
+              .then(songs => songs.destroy())
+              .catch(error=> next(error))
+          })
           .then(() => res.send({message: 'Playlist is deleted!'}))
       }else {
         res.status(404).send({message: `Playlist is not found`}).end()
